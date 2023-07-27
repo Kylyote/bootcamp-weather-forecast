@@ -34,7 +34,8 @@ THEN I am again presented with current and future conditions for that city
 
 Link to repo:  
 https://github.com/Kylyote/bootcamp-weather-forecast  
-Link to deployed page:
+Link to deployed page:  
 https://kylyote.github.io/bootcamp-weather-forecast
 
-How the webpage currently appears. Lack luster as the Project
+How the webpage currently appears. It is sad from neglect.
+![Alt](./assets/img/sadWeatherPage.png)

@@ -4,11 +4,11 @@ let cityInput = document.querySelector(".city-text");
 let dailyForecast = document.querySelector(".daily-forecast-content");
 let lat = 38.538;
 let long = -121.757;
+let cityName = "Sacramento";
 
 function getLatLong() {
   // Takes cityInput and breaks it into parts to construct the URL
   //let cityName = cityInput.split(",")[0];
-  let cityName = "Sacramento";
   //let stateCode = cityInput.split(",")[1];
   //let stateCode = "CA";
 
@@ -34,7 +34,7 @@ function getLatLong() {
 // get the present day weather 
 function getWeather() {
   // construct URL to get weather data. This nesting seems messy
-  let requestUrl = "https://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + long + "&appid=" + APIKey + "&units=imperial";
+  let requestUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&appid=${APIKey}&units=imperial`;
     
   // Fetch the weather data
   fetch(requestUrl)
@@ -45,6 +45,26 @@ function getWeather() {
       console.log("Result from getWeather", '\n',  data);
       let presentDay = [data.main.temp, data.wind.speed, data.main.humidity];
       console.log("Present day weather", '\n', presentDay);
+      // add data to HTML
+      // Find parent element
+      let todayEl = document.querySelector(".daily-forecast")
+
+      let cityEl = document.createElement("h2");
+      let tempEl = document.createElement("h3");
+      let windEl = document.createElement("h3");
+      let humiEl = document.createElement("h3");
+
+      // Fill items with information
+      cityEl.textContent = cityName;
+      tempEl.textContent = "Temp: " + presentDay[0] + "°F";
+      windEl.textContent = "Wind: " + presentDay[1] + " MPH";
+      humiEl.textContent = "Humidity: " + presentDay[2] + "%";
+
+      // Append to parent
+      todayEl.appendChild(cityEl);
+      todayEl.appendChild(tempEl);
+      todayEl.appendChild(windEl);
+      todayEl.appendChild(humiEl);
     });
 }
 // get weather for the next 5 days
@@ -58,13 +78,18 @@ function getForecast() {
       return response.json();
     })
   .then(function(data){
-      console.log("Result from getWeather", '\n',  data);
+      console.log("Result from getForecast", '\n',  data);
       let day1 = [data.list[7].main.temp, data.list[7].wind.speed, data.list[7].main.humidity];
       let day2 = [data.list[15].main.temp, data.list[15].wind.speed, data.list[15].main.humidity];
       let day3 = [data.list[23].main.temp, data.list[23].wind.speed, data.list[23].main.humidity];
       let day4 = [data.list[31].main.temp, data.list[31].wind.speed, data.list[31].main.humidity];
       let day5 = [data.list[39].main.temp, data.list[39].wind.speed, data.list[39].main.humidity];
-      console.log("Present day weather", '\n', day1, '\n', day2, '\n', day3, '\n', day4, '\n', day5);
+      console.log("Forecast day weather", '\n', day1, '\n', day2, '\n', day3, '\n', day4, '\n', day5);
+
+      for (let i = 1; i <= 5; i++) {
+        let dayForecast = `day-${i}`;
+        console.log("Daily forecast", '\n', dayForecast);
+      }
     });
 }
 
